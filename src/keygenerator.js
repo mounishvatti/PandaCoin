@@ -6,7 +6,7 @@ const publicKey = key.getPublic('hex');
 const privateKey = key.getPrivate('hex');
 
 console.log();
-console.log('Private key: ', privateKey);
+console.log('Your private key (keep this secret! To sign transactions)', privateKey);
 
 console.log();
-console.log("public key: ", publicKey); 
+console.log("Your public key (also your wallet address, freely shareable)", publicKey); 
