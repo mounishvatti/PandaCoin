@@ -1,28 +1,52 @@
-const{Blockchain, Transaction} = require('./blockchain')
+const { Blockchain, Transaction } = require('./blockchain');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
-const myKey = ec.keyFromPrivate('ed2df932c0a2dcd64ef27b98258142fb42cc84c28672ddec3923e4a833c1e74b');
-const myWalletAddress = myKey.getPublic('hex');
+// Your existing code
 
-const pandacoin = new Blockchain();
+// Function to display blockchain information
+function displayBlockchainInfo() {
+    // Get the latest block
+    const latestBlock = pandacoin.getLatestBlock();
 
-pandacoin.minePendingTransactions(myWalletAddress);
+    // Update the blockchain-info div with relevant information
+    const blockchainInfoDiv = document.getElementById('blockchain-info');
+    blockchainInfoDiv.innerHTML = `
+        <p>Latest Block Hash: ${latestBlock.hash}</p>
+        <p>Difficulty: ${pandacoin.difficulty}</p>
+        <p>Pending Transactions: ${pandacoin.pendingTransactions.length}</p>
+    `;
+}
 
-const tx1 = new Transaction(myWalletAddress, 'address2', 100);
-tx1.sign(myKey);
-pandacoin.addTransaction(tx1);
+// Add event listeners to buttons
+document.getElementById('mine-button').addEventListener('click', () => {
+    pandacoin.minePendingTransactions(myWalletAddress);
+    displayBlockchainInfo();
+});
 
-pandacoin.minePendingTransactions(myWalletAddress);
+document.getElementById('check-balance-button').addEventListener('click', () => {
+    const fromAddress = document.getElementById('from-address').value;
+    const balance = pandacoin.getBalanceOfAddress(fromAddress);
+    alert(`Balance of ${fromAddress} is ${balance}`);
+});
 
-const tx2 = new Transaction(myWalletAddress, 'address1', 50);
-tx2.sign(myKey);
-pandacoin.addTransaction(tx2);
+document.getElementById('send-transaction-button').addEventListener('click', () => {
+    const fromAddress = myWalletAddress;
+    const toAddress = document.getElementById('to-address').value;
+    const amount = parseFloat(document.getElementById('amount').value);
 
-pandacoin.minePendingTransactions(myWalletAddress);
+    const tx = new Transaction(fromAddress, toAddress, amount);
+    tx.sign(myKey);
 
-console.log();
-console.log('\nBalance of mounish is', pandacoin.getBalanceOfAddress(myWalletAddress));
+    try {
+        pandacoin.addTransaction(tx);
+        alert('Transaction added to pending transactions.');
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+    }
+});
 
-console.log();
-console.log('Blockchain valid?', pandacoin.isChainValid() ? 'Yes':'No');
+// Display initial blockchain information
+displayBlockchainInfo();
+
+// Your existing code continues...
