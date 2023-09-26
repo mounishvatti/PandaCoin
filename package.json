@@ -4,5 +4,23 @@
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "fabric-network": "^2.2.18"
-  }
+  },
+  "name": "pandacoin",
+  "description": "Building a Blockchain using JavaScript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "PandaCoin"
+  },
+  "keywords": [
+    "blockchain",
+    "transactions",
+    "education"
+  ],
+  "author": "mounishvatti",
+  "license": "MIT"
 }
